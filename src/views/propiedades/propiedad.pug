@@ -1,0 +1,71 @@
+extends ../layouts/app
+
+block styles
+  link(rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css")
+
+block contenido 
+  div(class="py-5")
+    h1(class="text-4xl my-10 font-extrabold text-center")=propiedad.titulo
+
+    div(class="")
+      a(href="#", class="font-bold text-gray-600 text-sm") Categoria: 
+        span(class="font-normal")=propiedad.categoria.nombre
+      
+      div(class="mt-5 md:flex md:items-start md:gap-4")
+        div(class="md:w-2/3 bg-white shadow rounded-lg")
+          img(src=`/uploads/${propiedad.imagen}`, alt=`Imagen propiedad ${propiedad.titulo}`, class="block w-full")
+          
+          div(class="px-5 py-10 space-y-3")
+            p=propiedad.descripcion
+            h2(class="text-2xl leading-6 font-bold text-gray-900") Información Propiedad
+            div(class="grid grid-cols-1 md:grid-cols-2 gap-4")
+              p(class="text-gray-600 font-bold text-xs") Baños
+                span(class="text-gray-800 block text-lg")=propiedad.banos
+
+              p(class="text-gray-600 font-bold text-xs") Habitaciones
+                span(class="text-gray-800 block text-lg")=propiedad.habitaciones
+
+              p(class="text-gray-600 font-bold text-xs") Establecimientos
+                span(class="text-gray-800 block text-lg")=propiedad.establecimiento
+
+              div(class="flex items-center gap-2 text-green-600")
+                      svg(fill="none", width=30, stroke="currentColor", stroke-width="1.5", viewBox="0 0 24 24", xmlns="http://www.w3.org/2000/svg", aria-hidden="true")
+                        path(stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z")
+                      p(class="text-sm text-green-600 font-bold")=propiedad.precio.nombre
+                      
+        aside(class="md:w-1/3 bg-white shadow rounded-lg")
+          h3(class="text-center p-10 leading-6 text-2xl font-bold text-gray-900") Ubicación
+          div(class="h-96", id="mapa")
+            p(id="lat", class="hidden")=propiedad.lat
+            p(id="lng", class="hidden")=propiedad.lng
+          
+          div(class="p-5")
+            p(class="text-gray-600 font-bold text-xs") Dirección
+              span(id="calle", class="text-gray-800 block text-lg")=propiedad.calle
+            
+            if !isVendedor
+                if enviado
+                  div(class="mt-8 mx-auto max-w-2xl my-6")
+                    p(class="bg-green-100 text-green-500 rounded border border-green-200 text-center font-bold p-2 mb-1 text-xs uppercase") Mensaje Enviando Exitosamente
+                  a(href=`/propiedad/${propiedad.id}`, class="block my-5 w-fit mx-auto py-3 px-4 font-bold uppercase bg-gray-700 text-white text-center rounded-md hover:bg-gray-800 transition-all cursor-pointer")  Volver a enviar otro mensaje
+              
+                else if usuario
+                  if errores 
+                    div(class="mt-8 mx-auto max-w-2xl my-6")
+                      each error in errores
+                        p(class="bg-red-100 text-rose-500 rounded border border-red-200 text-center font-bold p-2 mb-1 text-xs uppercase")=error.msg
+
+                  form(method="POST") 
+                    div(class="space-y-2 mt-5")
+                      label(for="mensaje", class="font-bold text-gray-600") Mensaje 
+                      textarea(cols="30", rows="3",, id="mensaje", name="mensaje", class="text-sm  border w-full p-2 border-gray-300 shadow rounded-lg placeholder-gray-400 focus:outline-indigo-200", placeholder="Escribe un mensaje")
+                      input(type="submit", value="Enviar Mensaje", class="block w-full mx-auto py-3 px-4 text-sm font-bold uppercase bg-indigo-700 text-white text-center rounded-md hover:bg-indigo-800 transition-all cursor-pointer")  
+                else 
+                  h3(class="text-2xl text-center mt-10 font-extrabold text-gray-900") Vendedor
+                    div(class="flex flex-col items-center text-center justify-center gap-2 text-base")
+                        p Si deseas contactar al vendedor
+                        a(href="/auth/login", class="block my-5 w-fit mx-auto py-3 px-4 font-bold uppercase bg-gray-700 text-white text-center rounded-md hover:bg-gray-800 transition-all cursor-pointer")  Debes iniciar sesion
+
+block scripts 
+  script(src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js")
+  script(src="/js/mostrarMapa.js") 

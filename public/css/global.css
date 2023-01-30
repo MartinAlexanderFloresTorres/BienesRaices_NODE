@@ -1,0 +1,33 @@
+body {
+  min-width: 320px;
+}
+
+.header-app-active .container {
+  position: relative;
+}
+@media (max-width: 1024px) {
+  .header-app-active .header-app-nav {
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    z-index: 10;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgb(79 70 229 / var(--tw-bg-opacity));
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+    opacity: 1;
+    visibility: visible;
+    border: 1px solid #675fff;
+  }
+  .header-app-active .header-app-nav form,
+  .header-app-active .header-app-nav input {
+    width: 100%;
+  }
+  .header-app-active #header-app-buscador {
+    display: flex;
+  }
+}

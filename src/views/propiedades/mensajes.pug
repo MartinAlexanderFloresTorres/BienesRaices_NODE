@@ -1,0 +1,28 @@
+extends ../layouts/admin
+
+block styles
+  link(rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css")
+
+
+block contenido
+  h2(class="text-2xl font-extrabold uppercase text-center my-10")=page
+
+  a(href="/mis-propiedades", class="block my-5 w-fit py-3 px-4 font-bold uppercase bg-indigo-700 text-white text-center rounded-md hover:bg-indigo-800 transition-all cursor-pointer") Volver
+
+  div(class="mx-auto max-w-4xl bg-white shadow")
+    if mensajes.length
+      ul(class="")
+        each mensaje in mensajes 
+          li(class="border-gray-200 border-b p-5 space-y-1")
+            p(class="font-bold text-gray-800") Nombre: 
+              span(class="font-normal")=mensaje.usuario.nombre
+            p(class="font-bold text-gray-800") Email: 
+              a(class="text-indigo-500 hover:underline font-semibold" href=`mailto:${mensaje.usuario.email}`)=mensaje.usuario.email
+
+            p(class="font-bold text-gray-800") Mensaje: 
+              span(class="font-normal")=mensaje.mensaje
+            
+            p(class="font-bold text-gray-800") Enviado: 
+              span(class="font-normal")=formatearFecha(mensaje.createdAt)
+    else 
+      p(class="text-center text-gray-600 p-5") No Hay Mensajes

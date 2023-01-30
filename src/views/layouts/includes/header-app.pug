@@ -1,0 +1,35 @@
+header(id="header-app", class="bg-indigo-600 p-4 text-center")
+    div(class="container mx-auto justify-between flex items-center gap-4")
+      a(href="/") 
+        h1(class="text-4xl font-extrabold text-center text-white") Bienes 
+          span(class="font-semibold text-gray-50") Raices
+
+      button(class="lg:hidden border border-indigo-300 rounded-full p-2 active:bg-indigo-600 hover:bg-indigo-500 transition-all", id="menu-app")
+        svg(fill="none", width="30", stroke="#fff", stroke-width="1.5", viewBox="0 0 24 24", xmlns="http://www.w3.org/2000/svg", aria-hidden="true")
+          path(stroke-linecap="round", stroke-linejoin="round", d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5")
+
+      nav(class="header-app-nav lg:flex hidden text-sm md:flex-row flex-col justify-center items-center font-bold text-white gap-4")
+        if usuario
+          a(href="/mis-propiedades" class="block hover:text-gray-300 transition") Mis propiedades
+          form(action="/auth/cerrar-sesion", method="POST") 
+            input(type="submit", value="Cerrar Sesión", class="inline-block p-3 font-bold uppercase bg-indigo-700 text-white text-center rounded-md hover:bg-indigo-800 transition-all cursor-pointer border border-indigo-500")
+        else
+          a(href="/auth/registro" class="block hover:text-gray-300 transition") Crear Cuenta
+          a(href="/auth/login" class="block hover:text-gray-300 transition") Iniciar Sesión
+        
+        form(action="/buscador", id="header-app-buscador", role="search", method="GET", class="hidden flex-col gap-3 items-center") 
+          input(type="text", required, id="q", name="q", class="text-gray-600 p-2 focus:outline-indigo-300 rounded-lg shadow text-sm", placeholder="Buscar propiedades")
+          input(type="submit", value="Buscar", class="block w-full py-2 px-3 text-sm font-bold uppercase bg-indigo-700 text-white text-center rounded-md hover:bg-indigo-800 transition-all cursor-pointer border border-indigo-500")
+
+div(class="bg-indigo-700 p-5 block overflow-auto")
+  div(class="container mx-auto flex justify-between gap-4")
+    nav(class="flex gap-4 items-center", id="header-categorias")
+    
+    form(action="/buscador", role="search", method="GET", class="hidden lg:flex gap-3 items-center") 
+      label(for="q",class="text-sm uppercase font-bold text-white") Búsqueda
+      input(type="text", required, id="q", name="q", class="p-2 focus:outline-indigo-300 rounded-lg shadow text-sm", placeholder="Buscar propiedades")
+      input(type="submit", value="Buscar", class="inline-block py-2 px-3 text-sm font-bold uppercase bg-indigo-700 text-white text-center rounded-md hover:bg-indigo-800 transition-all cursor-pointer border border-indigo-500")
+
+block header-scripts 
+  script(src="/js/mostrarCategorias.js")
+  script(src="/js/header.js")

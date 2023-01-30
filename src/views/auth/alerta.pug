@@ -1,0 +1,14 @@
+extends ../layouts/index
+
+block contenido
+  div(class="py-10")
+      h1(class="text-4xl font-extrabold text-center my-10 text-indigo-500") Bienes 
+        span(class="font-semibold text-gray-700") Raices
+
+      h2(class="text-center text-3xl font-extrabold")=page
+
+      div(class="mt-8 mx-auto max-w-lg bg-white py-6 px-4 mb-5 shadow border rounded")      
+        div(class= error ? "bg-red-500" : "bg-green-600").rounded-md.mb-5
+          p(class="p-2 text-center text-lg font-bold text-white uppercase")=mensage
+        
+        a(class="block mx-auto py-3 px-2 font-bold uppercase bg-indigo-700 text-white text-center rounded-md hover:bg-indigo-800 transition-all cursor-pointer", href="/auth/login") Iniciar Sesión

@@ -1,0 +1,93 @@
+extends ../layouts/admin
+
+block styles
+  link(rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css")
+
+
+block contenido
+  div(class="py-10")
+      h1(class="text-4xl font-extrabold text-center my-10 text-indigo-500") Bienes 
+        span(class="font-semibold text-gray-700") Raices
+
+      h2(class="text-center text-3xl font-extrabold")=page
+      
+      if errores 
+        div(class="mt-8 mx-auto max-w-2xl my-6")
+          each error in errores
+            p(class="bg-red-100 text-rose-500 rounded border border-red-200 text-center font-bold p-2 mb-1 text-xs uppercase")=error.msg
+
+      div(class="mt-8 mx-auto max-w-2xl")
+        div(class="bg-white py-8 px-5 shadow mb-5")
+          form(method="POST", noValidate)
+            div(class="mb-4")
+              legend(class="mb-4 text-lg leading-6 font-medium text-gray-600") Información General
+              p(class="text-gray-600") Añade Informacion Sobre la propiedad en venta
+
+            div(class="mb-4")
+              label(for="titulo", class="block text-sm uppercase text-gray-500 mb-2 font-bold") Titulo del anuncio
+              input(type="text", autofocus, name="titulo", value= propiedad ? propiedad.titulo : '' , id="titulo", class="text-gray-600 font-medium w-full px-3 py-2 border border-gray-300 focus:outline-gray-200 rounded-md placeholder-gray-400", placeholder="Titulo de la propiedad, ej. Casa en la playa")
+
+            div(class="mb-4")
+              label(for="descripcion", class="block text-sm uppercase text-gray-500 mb-2 font-bold") Descripcion del anuncio
+              textarea(cols="30", rows="2", type="descripcion", name="descripcion", id="descripcion", class="text-gray-600 font-medium w-full px-3 py-2 border border-gray-300 focus:outline-gray-200 rounded-md placeholder-gray-400 max-h-32", placeholder="Descripción de la propiedad.")=propiedad ? propiedad.descripcion : '' 
+
+            div(class="flex gap-3 md:flex-row flex-col")
+              div(class="mb-4 w-full")
+                label(for="categoria", class="block text-sm uppercase text-gray-500 mb-2 font-bold") Categoria
+                select(name="categoria" , id="categoria", class="text-gray-600 font-medium w-full px-3 py-2 border border-gray-300 focus:outline-gray-200 rounded-md placeholder-gray-400")
+                  option(value="") - Seleccione -
+                  each categoria in categorias 
+                    option(value=categoria.id, selected=propiedad ? propiedad.categoriaId == categoria.id : false)=categoria.nombre 
+
+              div(class="mb-4 w-full")
+                label(for="precio", class="block text-sm uppercase text-gray-500 mb-2 font-bold")  Precio
+                select(name="precio", id="precio", class="text-gray-600 font-medium w-full px-3 py-2 border border-gray-300 focus:outline-gray-200 rounded-md placeholder-gray-400")
+                  option(value="") - Seleccione -
+                  each precio in precios 
+                    option(value=precio.id, selected=propiedad ? propiedad.precioId == precio.id : false)=precio.nombre 
+
+            div(class="flex gap-3 md:flex-row flex-col")
+              div(class="mb-4 w-full")
+                label(for="habitaciones", class="block text-sm uppercase text-gray-500 mb-2 font-bold") Habitaciones
+                select(name="habitaciones" , id="habitaciones", class="text-gray-600 font-medium w-full px-3 py-2 border border-gray-300 focus:outline-gray-200 rounded-md placeholder-gray-400")
+                  option(value="") - Seleccione -
+                  - let a = 1;
+                      while a <= 10
+                        option(value=a, selected=propiedad ? propiedad.habitaciones == a : false) #{a++}
+
+              div(class="mb-4 w-full")
+                label(for="establecimiento", class="block text-sm uppercase text-gray-500 mb-2 font-bold")  establecimiento
+                select(name="establecimiento", id="establecimiento", class="text-gray-600 font-medium w-full px-3 py-2 border border-gray-300 focus:outline-gray-200 rounded-md placeholder-gray-400")
+                  option(value="") - Seleccione -
+                  - let b = 1;
+                      while b <= 6
+                        option(value=b, selected=propiedad ? propiedad.establecimiento == b : false) #{b++}
+
+              div(class="mb-4 w-full")
+                label(for="banos", class="block text-sm uppercase text-gray-500 mb-2 font-bold")  Baños
+                select(name="banos", id="banos", class="text-gray-600 font-medium w-full px-3 py-2 border border-gray-300 focus:outline-gray-200 rounded-md placeholder-gray-400")
+                  option(value="") - Seleccione -
+                  - let c = 1;
+                      while c <= 8
+                        option(value=c, selected=propiedad ? propiedad.banos == c : false) #{c++}
+
+            div(class="mb-4")
+              h3(class="mb-4 text-lg leading-6 font-medium text-gray-600") Ubicación
+              p(class="text-gray-600 mb-4") Ubica la propiedad en el mapa
+              div(id="mapa", class="w-full h-80 mb-4")
+
+              div(class="")
+                p(class="calle font-extrabold")=propiedad ? propiedad.calle : ''
+
+              input(type="hidden", name="calle", id="calle", value=propiedad ? propiedad.calle : '')
+              input(type="hidden", name="lat", id="lat", value=propiedad ? propiedad.lat : '')
+              input(type="hidden", name="lng", id="lng", value=propiedad ? propiedad.lng : '')
+
+            input(type="submit", value="Guardar Cambios", class="py-3 px-2 font-bold uppercase bg-indigo-700 text-white text-center rounded-md w-full hover:bg-indigo-800 transition-all cursor-pointer")
+
+block scripts
+  script(src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js")
+  script(src="https://unpkg.com/esri-leaflet@3.0.8/dist/esri-leaflet.js")
+  script(src="https://unpkg.com/esri-leaflet-geocoder@2.2.13/dist/esri-leaflet-geocoder.js")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geosearch/2.7.0/bundle.min.js")
+  script(src="/js/mapa.js") 

@@ -1,0 +1,20 @@
+header(id="header-app", class="bg-indigo-600 p-4 text-center")
+    div(class="container mx-auto justify-between flex items-center gap-4")
+      a(href="/") 
+        h1(class="text-4xl font-extrabold text-center text-white") Bienes 
+          span(class="font-semibold text-gray-50") Raices
+
+      button(class="lg:hidden border border-indigo-300 rounded-full p-2 active:bg-indigo-600 hover:bg-indigo-500 transition-all", id="menu-app")
+        svg(fill="none", width="30", stroke="#fff", stroke-width="1.5", viewBox="0 0 24 24", xmlns="http://www.w3.org/2000/svg", aria-hidden="true")
+          path(stroke-linecap="round", stroke-linejoin="round", d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5")
+
+      nav(class="header-app-nav lg:flex hidden text-sm md:flex-row flex-col justify-center items-center font-bold text-white gap-4")
+        a(href="/mis-propiedades" class="block hover:text-gray-300 transition") Mis propiedades
+        form(action="/auth/cerrar-sesion", method="POST") 
+          input(type="submit", value="Cerrar Sesión", class="inline-block p-3 font-bold uppercase bg-indigo-700 text-white text-center rounded-md hover:bg-indigo-800 transition-all cursor-pointer border border-indigo-500")
+        
+
+
+
+block header-scripts
+  script(src="/js/header.js")

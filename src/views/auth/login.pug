@@ -1,0 +1,30 @@
+extends ../layouts/index
+
+block contenido
+  div(class="py-10")
+      h1(class="text-4xl font-extrabold text-center my-10 text-indigo-500") Bienes 
+        span(class="font-semibold text-gray-700") Raices
+
+      h2(class="text-center text-3xl font-extrabold")=page
+
+      if errores 
+        div(class="mt-8 mx-auto max-w-lg my-6")
+          each error in errores
+            p(class="bg-red-100 text-rose-500 rounded border border-red-200 text-center font-bold p-2 mb-1 text-xs uppercase")=error.msg
+
+      div(class="mt-8 mx-auto max-w-lg")
+        div(class="bg-white py-8 px-4 mb-5 shadow")
+          form(method="POST", action="/auth/login")
+            div(class="mb-4")
+              label(for="email", class="block text-sm uppercase text-gray-500 mb-2 font-bold")  Tu email
+              input(type="email", autofocus, name="email",value= usuario ? usuario.email : '' , id="email", class="text-gray-600 font-medium w-full px-3 py-2 border border-gray-300 focus:outline-gray-200 rounded-md placeholder-gray-400", placeholder="Tu email")
+
+            div(class="mb-4")
+              label(for="password", class="block text-sm uppercase text-gray-500 mb-2 font-bold")  Tu password
+              input(type="password", name="password", id="password", class="text-gray-600 font-medium w-full px-3 py-2 border border-gray-300 focus:outline-gray-200 rounded-md placeholder-gray-400", placeholder="Tu password")
+
+            input(type="submit", value="Iniciar Sesión", class="py-3 px-2 font-bold uppercase bg-indigo-700 text-white text-center rounded-md w-full hover:bg-indigo-800 transition-all cursor-pointer")
+
+        div(class="bg-white py-5 px-5 shadow flex flex-wrap text-center sm:justify-between items-center justify-center gap-3")
+          a(href="/auth/registro", class="text-gray-500 text-base font-semibold hover:text-indigo-400 transition") ¿No tienes cuenta? Registrate
+          a(href="/auth/olvide-password", class="text-gray-500 text-base font-semibold hover:text-indigo-400 transition") Olvide mi password
