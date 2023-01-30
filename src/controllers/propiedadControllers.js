@@ -1,5 +1,5 @@
 // Importaciones
-import { unlink } from 'fs/promises'
+import { unlink } from 'node:fs/promises'
 import { check, validationResult } from 'express-validator'
 import { Propiedad, Categoria, Precio, Mensaje, Usuario } from '../models/index.js'
 import formatearFecha from '../helpers/formatearFecha.js'
